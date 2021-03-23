@@ -40,7 +40,21 @@ if __name__ == "__main__":
     # merge shapefile and data
     data = shape_bs.merge(ew19_wb_bs, on="Wahlbezirk")
 
+    # add data column
+    data["data"] = data["Volt"]
+    #data["data"] = data['SPD']
+    #data["data"] = data["Volt"] / data["W�hler (B)"]
+    #data["data"] = data["Volt"] / data['G�ltig']
+    #data["data"] = data["Volt"] / data['Ung�ltig']
+    #data["data"] = data["Volt"] / data['GR�NE']
+    #data["data"] = data["Volt"] / data['PIRATEN']
+    #data["data"] = data["Volt"] / data['DIE LINKE']
+    #data["data"] = data["Volt"] / data['AfD']
+    #data["data"] = data["Volt"] / data['SPD']
+
+
+    # https://geopandas.org/docs/user_guide/mapping.html
     fig, ax = plt.subplots(1, 1)
-    data.plot(column='Volt', ax=ax, legend=True)
+    data.plot(column='data', ax=ax, legend=True, legend_kwds={'label': "Votes"})
     plt.axis('off')
     plt.show()
