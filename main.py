@@ -4,6 +4,7 @@ import pandas as pd
 import geopandas as gpd
 import pickle
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 
 
 def load_obj(name):
@@ -41,7 +42,8 @@ if __name__ == "__main__":
     data = shape_bs.merge(ew19_wb_bs, on="Wahlbezirk")
 
     # add data column
-    data["data"] = data["Volt"]
+    #data["data"] = data["Volt"]
+    #data["data"] = data["Wahlberechtigte (A)
     #data["data"] = data['SPD']
     #data["data"] = data["Volt"] / data["W�hler (B)"]
     #data["data"] = data["Volt"] / data['G�ltig']
@@ -52,9 +54,21 @@ if __name__ == "__main__":
     #data["data"] = data["Volt"] / data['AfD']
     #data["data"] = data["Volt"] / data['SPD']
 
+    data["data"] = data['GR�NE'] / data['G�ltig']
+    label = "in %"
+    title = 'Stimmen Grüne pro Gültige Stimmen'
+
+    # setting the colormap
+    colors = [(0.8, 0.9, 0.8), (0.05, 0.5, 0.05)]  # grüne
+    # colors = [(0.8, 0.7, 1), (0.36, 0.15, 0.55)]  # volt
+    cm = LinearSegmentedColormap.from_list('test', colors, N=10)
+    #cm = "magma_r"
+
 
     # https://geopandas.org/docs/user_guide/mapping.html
     fig, ax = plt.subplots(1, 1)
-    data.plot(column='data', ax=ax, legend=True, legend_kwds={'label': "Votes"})
+    fig.suptitle(title, fontsize=16)
+    data.plot(column='data', cmap=cm, ax=ax, legend=True, legend_kwds={'label': label})
     plt.axis('off')
+    plt.savefig(f"images/{title.replace(' ', '_')}.png", bbox_inches='tight')
     plt.show()
