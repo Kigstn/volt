@@ -41,9 +41,12 @@ if __name__ == "__main__":
     # merge shapefile and data
     data = shape_bs.merge(ew19_wb_bs, on="Wahlbezirk")
 
+    # calc size of the areas in km**2
+    data["size"] = data['geometry'].to_crs({'proj': 'cea'}).area / 10**6
+
     # add data column
     #data["data"] = data["Volt"]
-    #data["data"] = data["Wahlberechtigte (A)
+    #data["data"] = data["Wahlberechtigte (A)"]
     #data["data"] = data['SPD']
     #data["data"] = data["Volt"] / data["W�hler (B)"]
     #data["data"] = data["Volt"] / data['G�ltig']
@@ -54,15 +57,15 @@ if __name__ == "__main__":
     #data["data"] = data["Volt"] / data['AfD']
     #data["data"] = data["Volt"] / data['SPD']
 
-    data["data"] = data['GR�NE'] / data['G�ltig']
-    label = "in %"
-    title = 'Stimmen Grüne pro Gültige Stimmen'
+    data["data"] = data["Wahlberechtigte (A)"] / data['size']
+    label = "Stimmen"
+    title = 'Wahlberechtigte pro km²'
 
     # setting the colormap
     colors = [(0.8, 0.9, 0.8), (0.05, 0.5, 0.05)]  # grüne
-    # colors = [(0.8, 0.7, 1), (0.36, 0.15, 0.55)]  # volt
-    cm = LinearSegmentedColormap.from_list('test', colors, N=10)
-    #cm = "magma_r"
+    #colors = [(0.8, 0.7, 1), (0.36, 0.15, 0.55)]  # volt
+    #cm = LinearSegmentedColormap.from_list('test', colors, N=10)
+    cm = "magma_r"
 
 
     # https://geopandas.org/docs/user_guide/mapping.html
