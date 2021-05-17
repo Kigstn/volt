@@ -16,9 +16,9 @@ shape["StatistBez"] = shape["StatistBez"].astype(int)
 data = shape.merge(strukturdaten, on="StatistBez")
 
 
-data["data"] = data["20 bis 40"]
+data["data"] = data["ab 65"]
 label = "Menschen"
-title = '20 bis 40 Jährige'
+title = 'ab 65'
 
 # setting the colormap
 # colors = [(0.8, 0.9, 0.8), (0.05, 0.5, 0.05)]  # grüne
@@ -32,4 +32,4 @@ fig.suptitle(title, fontsize=16)
 data.plot(column='data', cmap=cm, ax=ax, legend=True, legend_kwds={'label': label})
 plt.axis('off')
 plt.savefig(f"images/{title.replace(' ', '_')}.png", bbox_inches='tight')
-plt.show()
+plt.show(bbox_inches='tight')
